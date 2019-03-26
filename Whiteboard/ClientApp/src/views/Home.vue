@@ -1,20 +1,23 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <!--UserHeader/-->
-    <!--HelloWorld msg="Welcome to Your Vue.js App" -->
-  </div>
+    <div class="home">
+        <header>
+            <h1>Whiteboard</h1>
+        </header>
+    </div>
 </template>
+<style scoped lang="stylus">
+    header{
+        background-color: lightcyan;
+        padding: 20px;
+        height: 130px;
+    }
 
-<script>
-// @ is an alias to /src
-    import HelloWorld from '@/components/HelloWorld.vue'
-    import UserHeader from '@/components/Header.vue'
+    h1 {
+        color: #000000;
+        text-align:center;
+        padding: 20px;
+        font-family: 'Franklin Gothic', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        font-style: italic;
+    }
+</style>
 
-export default {
-  name: 'home',
-  components: {
-      UserHeader
-  }
-}
-</script>

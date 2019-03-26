@@ -1,17 +1,20 @@
 <template>
     <header>
-        <h1> This is header!</h1>
+        <h1> Whiteboard </h1>
     </header>
 </template>
 
 <style scoped lang="stylus">
-    
-    header
-        background: lightgreen
-        padding: 10px
+    header {
+        background: lightgreen;
+        padding: 10px;
+    }
 
-    h1
-        color: #ff6a00
-        text-align: center
+    h1 {
+        color: #000000;
+        text-align: left;
+        font-family:'Franklin Gothic';
+        font-style: italic;
+    }
 
 </style>

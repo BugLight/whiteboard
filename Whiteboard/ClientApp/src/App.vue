@@ -1,8 +1,11 @@
 <template>
     <div id="app">
-        <div class="header">
-            <UserHeader />
-        </div>
+        <navigation v-if="['about'].indexOf($route.name) > -1">
+            <div class="header">
+                <UserHeader />
+            </div>
+        </navigation>
+
 
         <div id="nav">
             <router-link to="/">Home</router-link> |

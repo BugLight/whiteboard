@@ -3,6 +3,7 @@
         <div class="header">
             <UserHeader />
         </div>
+
         <div id="nav">
             <router-link to="/">Home</router-link> |
             <router-link to="/about">About</router-link>
@@ -21,6 +22,10 @@ export default {
 }
 </script>
 <style lang="stylus">
+html, body
+  margin 0
+  
+
 #app
   font-family 'Avenir', Helvetica, Arial, sans-serif
   -webkit-font-smoothing antialiased

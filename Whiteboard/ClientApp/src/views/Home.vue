@@ -30,5 +30,14 @@
         font-family: 'Franklin Gothic', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         font-style: italic;
     }
+
+    button {
+        padding: 15px 35px;
+        text-align: center;
+        font-size: 16px;
+        margin: 40px 10px 0px 10px;
+        width: 400px;
+
+    }
 </style>
 

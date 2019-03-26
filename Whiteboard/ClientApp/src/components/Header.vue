@@ -6,8 +6,9 @@
 
 <style scoped lang="stylus">
     header {
-        background-color:lightcyan;
-        padding: 15px;
+        background-color: lightcyan;
+        padding: 10px;
+        height: 70px;
     }
 
     h1 {

@@ -3,6 +3,17 @@
         <header>
             <h1>Whiteboard</h1>
         </header>
+        <div id="button">
+            <router-link to="/new_room" tag="button">
+                Create new room
+            </router-link>
+        </div>
+        <div id="button">
+            <router-link to="/join_room" tag="button">
+                Join existing room with ID
+            </router-link>
+        </div>
+
     </div>
 </template>
 <style scoped lang="stylus">

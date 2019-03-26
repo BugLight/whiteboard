@@ -1,12 +1,25 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+    <div id="app">
+        <div class="header">
+            <UserHeader />
+        </div>
+        <div id="nav">
+            <router-link to="/">Home</router-link> |
+            <router-link to="/about">About</router-link>
+        </div>
+        <router-view />
     </div>
-    <router-view/>
-  </div>
 </template>
+<script>
+    import UserHeader from '@/components/Header.vue'
+
+export default {
+  name: 'header',
+  components: {
+      UserHeader
+  }
+}
+</script>
 <style lang="stylus">
 #app
   font-family 'Avenir', Helvetica, Arial, sans-serif

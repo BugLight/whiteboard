@@ -7,7 +7,7 @@
 <style scoped lang="stylus">
     header {
         background-color:lightcyan;
-        padding: 10px;
+        padding: 15px;
     }
 
     h1 {

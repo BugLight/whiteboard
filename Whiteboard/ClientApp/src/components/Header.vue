@@ -4,10 +4,14 @@
     </header>
 </template>
 
-<style scoped>
-    header {
-        background: lightgreen;
-        padding: 10px;
-    }
+<style scoped lang="stylus">
+    
+    header
+        background: lightgreen
+        padding: 10px
+
+    h1
+        color: #ff6a00
+        text-align: center
 
 </style>

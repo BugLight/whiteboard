@@ -32,6 +32,8 @@ namespace Whiteboard
 
             services.AddSingleton<IConnectionStorage, ConnectionStorage>();
             services.AddSingleton<IActiveRoomStorage, ActiveRoomStorage>();
+
+            services.AddCors();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -40,6 +42,13 @@ namespace Whiteboard
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(configuration =>
+            {
+                configuration.AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowAnyOrigin();
+            });
 
             app.UseStaticFiles();
             app.UseSpaStaticFiles();

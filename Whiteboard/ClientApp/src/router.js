@@ -30,6 +30,11 @@ export default new Router({
         path: '/join_room',
         name: 'join_room',
         component: () => import('./views/JoinRoom.vue')
+      },
+      {
+        path: '/room',
+        name: 'room',
+        component: () => import('./views/Room.vue')
       }
   ]
 })

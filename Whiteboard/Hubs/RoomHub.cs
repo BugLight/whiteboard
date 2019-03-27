@@ -38,7 +38,14 @@ namespace Whiteboard.Hubs
             var connection = connectionStorage.GetById(Context.ConnectionId);
             if (connection != null)
             {
+                var room = connection.Room;
                 connection.Close();
+                if (room != null)
+                {
+                    var id = room.Id.ToString();
+                    await Groups.RemoveFromGroupAsync(Context.ConnectionId, id);
+                    await Clients.Group(id).UserLeft(room);
+                }
             }
         }
 

@@ -30,8 +30,8 @@ namespace Whiteboard
             string connectionString = @"Data Source = DESKTOP-L2AHU82; Initial Catalog = Whiteboard; Integrated Security = true";
             services.AddDbContext<AppContext>(options => options.UseSqlServer(connectionString));
 
-            services.AddSingleton<IConnectionStorage, ConnectionStorage>();
-            services.AddSingleton<IActiveRoomStorage, ActiveRoomStorage>();
+            services.AddScoped<IConnectionStorage, ConnectionStorage>();
+            services.AddScoped<IActiveRoomStorage, ActiveRoomStorage>();
 
             services.AddCors();
         }
@@ -47,7 +47,8 @@ namespace Whiteboard
             {
                 configuration.AllowAnyHeader()
                     .AllowAnyMethod()
-                    .AllowAnyOrigin();
+                    .AllowAnyOrigin()
+                    .AllowCredentials();
             });
 
             app.UseStaticFiles();

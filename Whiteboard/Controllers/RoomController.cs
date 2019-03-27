@@ -30,7 +30,7 @@ namespace Whiteboard.Controllers
             context.Rooms.Add(room);
             context.SaveChanges();
 
-            return room;
+            return Ok(room);
         }
     }
 }

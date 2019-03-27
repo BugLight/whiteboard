@@ -28,10 +28,7 @@ namespace Whiteboard
             ConnectionsCount++;
             mutex.ReleaseMutex();
             connection.Room = this;
-            connection.OnClosed += (sender, args) =>
-            {
-                Leave((Connection)sender);
-            };
+            connection.OnClosed += ConnectionClosed;
             OnJoined?.Invoke(this, connection);
         }
 
@@ -42,8 +39,14 @@ namespace Whiteboard
                 throw new Exception();
             ConnectionsCount--;
             mutex.ReleaseMutex();
+            connection.OnClosed -= ConnectionClosed;
             connection.Room = null;
             OnLeft?.Invoke(this, connection);
+        }
+
+        private void ConnectionClosed(object sender, EventArgs args)
+        {
+            Leave((Connection)sender);
         }
     }
 }

@@ -19,11 +19,38 @@
     data() {
       return {
         activeRoom: {
+          id: '',
           name: 'Unnamed room',
           connectionsCount: 0,
           maxConnections: 0
         }
       };
+    },
+    created() {
+      this.$socket.invoke('UserJoin', this.$route.params.id)
+        .catch(() => alert("Ошибка присоединения"));
+    },
+    beforeRouteUpdate(to, from, next) {
+      this.$socket.invoke('UserLeave')
+        .then(() => this.$socket.invoke('UserJoin', to.params.id))
+        .catch(() => alert('Ошибка присоединения'));
+      next();
+    },
+    sockets: {
+      UserJoined(room) {
+        alert('Joined');
+        this.activeRoom.name = room.name;
+        this.activeRoom.id = room.id;
+        this.activeRoom.connectionsCount = room.connectionsCount;
+        this.activeRoom.maxConnections = room.maxConnections;
+      },
+      UserLeft(room) {
+        alert('Left');
+        this.activeRoom.name = room.name;
+        this.activeRoom.id = room.id;
+        this.activeRoom.connectionsCount = room.connectionsCount;
+        this.activeRoom.maxConnections = room.maxConnections;
+      }
     }
   }
 </script>

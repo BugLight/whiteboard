@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <navigation v-if="['home'].indexOf($route.name) > -1"></navigation>
+        <navigation v-if="$route.name == 'home'"></navigation>
         <navigation v-else>
             <div class="header">
                 <UserHeader />

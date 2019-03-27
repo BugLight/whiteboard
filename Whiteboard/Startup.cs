@@ -27,8 +27,13 @@ namespace Whiteboard
 
             services.AddSignalR();
 
-            string connectionString = @"Data Source = LAPTOP-F93IBOP5; Initial Catalog = Whiteboard; Integrated Security = true";
+            string connectionString = @"Data Source = DESKTOP-L2AHU82; Initial Catalog = Whiteboard; Integrated Security = true";
             services.AddDbContext<AppContext>(options => options.UseSqlServer(connectionString));
+
+            services.AddScoped<IConnectionStorage, ConnectionStorage>();
+            services.AddScoped<IActiveRoomStorage, ActiveRoomStorage>();
+
+            services.AddCors();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -37,6 +42,14 @@ namespace Whiteboard
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(configuration =>
+            {
+                configuration.AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowAnyOrigin()
+                    .AllowCredentials();
+            });
 
             app.UseStaticFiles();
             app.UseSpaStaticFiles();

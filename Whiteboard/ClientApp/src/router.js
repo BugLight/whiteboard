@@ -24,7 +24,7 @@ export default new Router({
       component: () => import('./views/JoinRoom.vue')
     },
     {
-      path: '/room',
+      path: '/room/:id',
       name: 'room',
       component: () => import('./views/Room.vue')
     }

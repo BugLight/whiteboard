@@ -26,7 +26,7 @@
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="cd $(ProjectDir)/ClientApp&#xD;&#xA;npm install&#xD;&#xA;npm run build" />
+    <Exec Command="cd $(ProjectDir)ClientApp&#xD;&#xA;npm run build" />
   </Target>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Release'">

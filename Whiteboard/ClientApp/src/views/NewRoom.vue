@@ -32,7 +32,7 @@
         this.$http.post('http://localhost:5000/api/rooms', this.room)
           .then(response => response.json())
           .then(room => {
-            alert('Комната создана!');
+            alert('Комната успешно создана!');
             this.$router.push({
               name: 'room',
               params: {
@@ -41,7 +41,7 @@
             });
           })
           .catch(() => {
-            alert('Ошибка создания комнаты.');
+            alert('Ошибка создания комнаты. Попробуйте нажать кнопку еще раз.\nЕсли проблема не решена, сообщите о ней по адресу buglight@kistriver.com');
           });
       }
     }

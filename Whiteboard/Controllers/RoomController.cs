@@ -15,8 +15,8 @@ namespace Whiteboard.Controllers
         }
 
         // Function for adding room
-        [HttpPost()]
-        public ActionResult<Room> AddMeal([FromBody] Room room)
+        [HttpPost]
+        public ActionResult<Room> AddRoom([FromBody] Room room)
         {
             if (room == null)
                 return BadRequest();
@@ -24,7 +24,7 @@ namespace Whiteboard.Controllers
             if (string.IsNullOrEmpty(room.Name))
                 return BadRequest();
 
-            if (room.MaxConnections > 0)
+            if (room.MaxConnections <= 0)
                 return BadRequest();
 
             context.Rooms.Add(room);

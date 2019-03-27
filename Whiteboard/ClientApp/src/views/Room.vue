@@ -1,11 +1,11 @@
 ﻿<template>
     <div class="room">
         <header>
-            <h3>{{ activeRoom.name }} </h3>
+            <h2>{{ activeRoom.name }} </h2>
             <router-link to="/room_link" tag="button">
                 Поделиться ссылкой
             </router-link>
-            <h4> {{ activeRoom.connectionsCount }} / {{ activeRoom.maxConnections }} </h4>
+            <h4> Подключено пользователей: {{ activeRoom.connectionsCount }} / {{ activeRoom.maxConnections }} </h4>
         </header>
     </div>
 </template>
@@ -32,25 +32,27 @@
         font-family: 'Franklin Gothic', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     }
 
-    h3 {
+    h2 {
+        margin-left: 10px;
         display:inline-block;
         color: #000000;
-        text-align: left;
         font-style: italic;
+        float:left;
     }
 
     button {
         display: inline-block;
         text-align: center;
         font-size: 14px;
-        margin: 0px 10px 0px 20px;
+        margin: 25px 10px 0px 20px;
+        float:left;
     }
 
     h4 {
         display: inline-block;
         color: #000000;
-        text-align: right;
-        margin: 0px 10px 0px 10px;
+        margin: 25px 10px 0px 10px;
+        float: right;
     }
 
 </style>

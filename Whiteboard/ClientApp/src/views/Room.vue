@@ -48,12 +48,12 @@
     },
     created() {
       this.$socket.invoke('UserJoin', this.$route.params.id)
-        .catch(() => alert("Ошибка присоединения"));
+          .catch(() => alert("Ошибка присоединения. Проверьте правильность ввода данных комнаты и попробуйте еще раз.\nЕсли проблема не решена, сообщите о ней по адресу buglight@kistriver.com"));
     },
     beforeRouteUpdate(to, from, next) {
       this.$socket.invoke('UserLeave')
         .then(() => this.$socket.invoke('UserJoin', to.params.id))
-        .catch(() => alert('Ошибка присоединения'));
+          .catch(() => alert('Ошибка присоединения. Проверьте правильность ввода данных комнаты и попробуйте еще раз.\nЕсли проблема не решена, сообщите о ней по адресу buglight@kistriver.com'));
       next();
     },
     methods: {

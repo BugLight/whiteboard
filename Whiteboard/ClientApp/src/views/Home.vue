@@ -1,16 +1,16 @@
-<template>
+﻿<template>
     <div class="home">
         <header>
             <h1>Whiteboard</h1>
         </header>
         <div id="button">
             <router-link to="/new_room" tag="button">
-                Create new room
+                Создать новую комнату
             </router-link>
         </div>
         <div id="button">
             <router-link to="/join_room" tag="button">
-                Join existing room with ID
+                Присоединиться к существующей комнате по ID
             </router-link>
         </div>
 
@@ -36,7 +36,7 @@
         text-align: center;
         font-size: 16px;
         margin: 40px 10px 0px 10px;
-        width: 400px;
+        width: 450px;
 
     }
 </style>

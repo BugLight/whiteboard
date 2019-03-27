@@ -24,7 +24,12 @@ export default new Router({
       {
         path: '/new_room',
         name: 'new_room',
-        component: Home
+        component: () => import('./views/NewRoom.vue')
+      },
+      {
+        path: '/join_room',
+        name: 'join_room',
+        component: () => import('./views/JoinRoom.vue')
       }
   ]
 })

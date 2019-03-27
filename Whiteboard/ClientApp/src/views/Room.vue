@@ -1,58 +1,45 @@
 ﻿<template>
-    <div class="room">
-        <header>
-            <h2>{{ activeRoom.name }} </h2>
-            <router-link to="/room_link" tag="button">
-                Поделиться ссылкой
-            </router-link>
-            <h4> Подключено пользователей: {{ activeRoom.connectionsCount }} / {{ activeRoom.maxConnections }} </h4>
-        </header>
-    </div>
+  <div class="room">
+    <header>
+      <div class="room__name">
+        <span>{{ activeRoom.name }}</span>
+        <router-link to="/room_link" tag="button" class="button button_submit">
+          Поделиться ссылкой
+        </router-link>
+      </div>
+      <div class="room__status">
+        Подключено пользователей: {{ activeRoom.connectionsCount }} / {{ activeRoom.maxConnections }}
+      </div>
+    </header>
+  </div>
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-                activeRoom: {
-                    name: 'Unnamed room',
-                    connectionsCount: 0,
-                    maxConnections: 0
-                }
-            };
+  export default {
+    data() {
+      return {
+        activeRoom: {
+          name: 'Unnamed room',
+          connectionsCount: 0,
+          maxConnections: 0
         }
+      };
     }
+  }
 </script>
 
 <style scoped lang="stylus">
-    header {
-        background-color: lightgoldenrodyellow;
-        padding: 1px;
-        height: 50px;
-        font-family: 'Franklin Gothic', 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    }
+  header
+    background-color lightgoldenrodyellow
+    overflow hidden
 
-    h2 {
-        margin-left: 10px;
-        display:inline-block;
-        color: #000000;
-        font-style: italic;
-        float:left;
-    }
+  .room__name
+    margin 10px
+    font-style italic
+    float left
 
-    button {
-        display: inline-block;
-        text-align: center;
-        font-size: 14px;
-        margin: 25px 10px 0px 20px;
-        float:left;
-    }
-
-    h4 {
-        display: inline-block;
-        color: #000000;
-        margin: 25px 10px 0px 10px;
-        float: right;
-    }
-
+  .room__status
+    margin 10px
+    color #000000
+    float right
 </style>

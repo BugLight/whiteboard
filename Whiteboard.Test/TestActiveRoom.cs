@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using Whiteboard.Models;
 
 namespace Whiteboard.Test
 {
@@ -6,62 +7,64 @@ namespace Whiteboard.Test
     public class TestActiveRoom
     {
         private Connection connection;
+        private Room room;
 
         [SetUp]
         public void SetUp()
         {
             connection = new Connection("");
+            room = new Room();
         }
 
         [Test]
         public void TestInitialCount()
         {
-            var room = new ActiveRoom();
-            Assert.That(room.ConnectionsCount == 0);
+            var activeRoom = new ActiveRoom(room);
+            Assert.That(activeRoom.ConnectionsCount == 0);
         }
 
         [Test]
         public void TestIncCount()
         {
-            var room = new ActiveRoom
+            var activeRoom = new ActiveRoom(room)
             {
                 MaxConnections = 1
             };
-            var count = room.ConnectionsCount;
-            room.Join(connection);
-            Assert.That(room.ConnectionsCount == count + 1);
+            var count = activeRoom.ConnectionsCount;
+            activeRoom.Join(connection);
+            Assert.That(activeRoom.ConnectionsCount == count + 1);
         }
 
         [Test]
         public void TestDecCount()
         {
-            var room = new ActiveRoom
+            var activeRoom = new ActiveRoom(room)
             {
                 MaxConnections = 1
             };
-            var count = room.ConnectionsCount;
-            room.Join(connection);
-            room.Leave(connection);
-            Assert.That(room.ConnectionsCount == count);
+            var count = activeRoom.ConnectionsCount;
+            activeRoom.Join(connection);
+            activeRoom.Leave(connection);
+            Assert.That(activeRoom.ConnectionsCount == count);
         }
 
         [Test]
         public void TestEmptyRoom()
         {
-            var room = new ActiveRoom();
-            Assert.That(() => room.Leave(connection), Throws.Exception);
+            var activeRoom = new ActiveRoom(room);
+            Assert.That(() => activeRoom.Leave(connection), Throws.Exception);
         }
 
         [Test]
         public void TestFullRoom()
         {
-            var room = new ActiveRoom
+            var activeRoom = new ActiveRoom(room)
             {
                 MaxConnections = 1
             };
-            for (int i = 0; i < room.MaxConnections; i++)
-                room.Join(new Connection(""));
-            Assert.That(() => room.Join(connection), Throws.Exception);
+            for (int i = 0; i < activeRoom.MaxConnections; i++)
+                activeRoom.Join(new Connection(""));
+            Assert.That(() => activeRoom.Join(connection), Throws.Exception);
         }
     }
 }

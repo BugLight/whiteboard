@@ -12,6 +12,14 @@ namespace Whiteboard
         public event EventHandler<Connection> OnJoined;
         public event EventHandler<Connection> OnLeft;
 
+        public ActiveRoom(Room room)
+        {
+            ConnectionsCount = 0;
+            MaxConnections = room.MaxConnections;
+            Name = room.Name;
+            Id = room.Id;
+        }
+
         public void Join(Connection connection)
         {
             mutex.WaitOne();

@@ -1,12 +1,19 @@
-﻿{
+{
   "profiles": {
     "Whiteboard": {
       "commandName": "Project",
-      "launchBrowser": false,
-      "applicationUrl": "http://localhost:5000",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:3000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      },
+      "applicationUrl": "http://localhost:5000"
+    },
+    "Whiteboard Prod": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "http://localhost:5000",
+      "applicationUrl": "http://localhost:5000"
     }
   }
 }

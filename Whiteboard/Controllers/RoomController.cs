@@ -15,7 +15,7 @@ namespace Whiteboard.Controllers
         }
 
         // Function for adding room
-        [HttpPost("rooms")]
+        [HttpPost()]
         public ActionResult<Room> AddMeal([FromBody] Room room)
         {
             if (room == null)

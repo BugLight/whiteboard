@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using VueCliMiddleware;
@@ -25,6 +26,9 @@ namespace Whiteboard
             services.AddSpaStaticFiles(configuration => configuration.RootPath = "ClientApp/dist");
 
             services.AddSignalR();
+
+            string connectionString = @"Data Source = LAPTOP-F93IBOP5; Initial Catalog = Whiteboard; Integrated Security = true";
+            services.AddDbContext<AppContext>(options => options.UseSqlServer(connectionString));
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

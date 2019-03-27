@@ -32,7 +32,7 @@
         this.$http.post('http://localhost:5000/api/rooms', this.room)
           .then(response => response.json())
           .then(room => {
-            alert('Комната создана!\n' + room.id);
+            alert('Комната создана!');
             this.$router.push({
               name: 'room',
               params: {

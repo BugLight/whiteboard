@@ -13,7 +13,7 @@
     </header>
     <div class="room__canvas">
       <canvas id="canvas" width="1000" height="600" @mouseenter="initCanvas" @mousedown="mouseDown" 
-              @mousemove="mouseMove" @mouseleave="mouseLeave"></canvas>
+              @mousemove="mouseMove" @mouseleave="mouseMove"></canvas>
     </div>
   </div>
 </template>
@@ -41,6 +41,7 @@
 
   var mousePressed = false;
   var canvasElem, ctx;
+  var prevX, prevY;
 
   export default {
     computed: {
@@ -76,20 +77,30 @@
         mousePressed = true;
         ctx.strokeStyle = "#000000";
         ctx.beginPath();
-        ctx.moveTo(e.pageX - canvasElem.offsetLeft, e.pageY - canvasElem.offsetTop);
+        prevX = e.pageX - canvasElem.offsetLeft;
+        prevY = e.pageY - canvasElem.offsetTop;
+        ctx.moveTo(prevX, prevY);
       },
       mouseUp() {
         mousePressed = false;
       },
       mouseMove(e) {
         if (mousePressed) {
-          ctx.lineTo(e.pageX - canvasElem.offsetLeft, e.pageY - canvasElem.offsetTop);
-          ctx.stroke();
-        }
-      },
-      mouseLeave(e) {
-        if (mousePressed) {
-          ctx.lineTo(e.pageX - canvasElem.offsetLeft, e.pageY - canvasElem.offsetTop);
+          var curX = e.pageX - canvasElem.offsetLeft;
+          var curY = e.pageY - canvasElem.offsetTop;
+          this.$socket.invoke("Draw", {
+            from: {
+              x: prevX,
+              y: prevY
+            },
+            to: {
+              x: curX,
+              y: curY
+            }
+          });
+          ctx.lineTo(curX, curY);
+          prevX = curX;
+          prevY = curY;
           ctx.stroke();
         }
       }

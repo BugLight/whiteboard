@@ -22,7 +22,12 @@ namespace Whiteboard
             {
                 var room = (ActiveRoom)sender;
                 if (room.ConnectionsCount == 0)
+                {
                     Remove(room.Id);
+                    room.Canvas.Flush();
+                    context.Add((Room)room);
+                    context.SaveChanges();
+                }
             };
         }
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using Whiteboard.Models;
 
 namespace Whiteboard
@@ -18,6 +17,7 @@ namespace Whiteboard
             MaxConnections = room.MaxConnections;
             Name = room.Name;
             Id = room.Id;
+            Canvas = room.Canvas;
         }
 
         public void Join(Connection connection)
@@ -36,7 +36,7 @@ namespace Whiteboard
         public void Leave(Connection connection)
         {
             lock (connectionsCountLock)
-            { 
+            {
                 if (ConnectionsCount == 0)
                     throw new Exception();
                 ConnectionsCount--;

@@ -36,45 +36,28 @@
   };
 
   export default {
-    data() {
-      return {
-        activeRoom: {
-          id: '',
-          name: 'Unnamed room',
-          connectionsCount: 0,
-          maxConnections: 0
-        }
-      };
+    computed: {
+      activeRoom() {
+        return this.$store.state.activeRoom;
+      }
     },
     created() {
       this.$socket.invoke('UserJoin', this.$route.params.id)
-          .catch(() => alert("Ошибка присоединения. Проверьте правильность ввода данных комнаты и попробуйте еще раз.\nЕсли проблема не решена, сообщите о ней по адресу buglight@kistriver.com"));
+        .catch(() => alert("Ошибка присоединения. Проверьте правильность ввода данных комнаты и попробуйте еще раз.\nЕсли проблема не решена, сообщите о ней по адресу buglight@kistriver.com"));
     },
     beforeRouteUpdate(to, from, next) {
-      this.$socket.invoke('UserLeave')
-        .then(() => this.$socket.invoke('UserJoin', to.params.id))
-          .catch(() => alert('Ошибка присоединения. Проверьте правильность ввода данных комнаты и попробуйте еще раз.\nЕсли проблема не решена, сообщите о ней по адресу buglight@kistriver.com'));
+      this.$socket.invoke('UserJoin', to.params.id)
+        .catch(() => alert('Ошибка присоединения. Проверьте правильность ввода данных комнаты и попробуйте еще раз.\nЕсли проблема не решена, сообщите о ней по адресу buglight@kistriver.com'));
+      next();
+    },
+    beforeRouteLeave(to, from, next) {
+      this.$socket.invoke('UserLeave');
       next();
     },
     methods: {
       share() {
         copyToClipboard(window.location);
         alert('Скопировано в буфер обмена!');
-      }
-    },
-    sockets: {
-      UserJoined(room) {
-        alert('Присоединился новый пользователь!');
-        this.activeRoom.name = room.name;
-        this.activeRoom.id = room.id;
-        this.activeRoom.connectionsCount = room.connectionsCount;
-        this.activeRoom.maxConnections = room.maxConnections;
-      },
-      UserLeft(room) {
-        this.activeRoom.name = room.name;
-        this.activeRoom.id = room.id;
-        this.activeRoom.connectionsCount = room.connectionsCount;
-        this.activeRoom.maxConnections = room.maxConnections;
       }
     }
   }

@@ -7,7 +7,7 @@ namespace Whiteboard
     public class ActiveRoom : Room
     {
         public int ConnectionsCount { get; private set; }
-        private readonly Mutex mutex = new Mutex(); 
+        private readonly object connectionsCountLock = new object();
 
         public event EventHandler<Connection> OnJoined;
         public event EventHandler<Connection> OnLeft;
@@ -22,11 +22,12 @@ namespace Whiteboard
 
         public void Join(Connection connection)
         {
-            mutex.WaitOne();
-            if (ConnectionsCount == MaxConnections)
-                throw new Exception();
-            ConnectionsCount++;
-            mutex.ReleaseMutex();
+            lock (connectionsCountLock)
+            {
+                if (ConnectionsCount == MaxConnections)
+                    throw new Exception();
+                ConnectionsCount++;
+            }
             connection.Room = this;
             connection.OnClosed += ConnectionClosed;
             OnJoined?.Invoke(this, connection);
@@ -34,11 +35,12 @@ namespace Whiteboard
 
         public void Leave(Connection connection)
         {
-            mutex.WaitOne();
-            if (ConnectionsCount == 0)
-                throw new Exception();
-            ConnectionsCount--;
-            mutex.ReleaseMutex();
+            lock (connectionsCountLock)
+            { 
+                if (ConnectionsCount == 0)
+                    throw new Exception();
+                ConnectionsCount--;
+            }
             connection.OnClosed -= ConnectionClosed;
             connection.Room = null;
             OnLeft?.Invoke(this, connection);

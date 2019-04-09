@@ -19,5 +19,14 @@ new Vue({
     this.$socket.start({
       log: false
     });
+  },
+  sockets: {
+    UserJoined(room) {
+      alert('Присоединился новый пользователь!');
+      this.$store.commit('updateActiveRoom', room);
+    },
+    UserLeft(room) {
+      this.$store.commit('updateActiveRoom', room);
+    }
   }
 }).$mount('#app')

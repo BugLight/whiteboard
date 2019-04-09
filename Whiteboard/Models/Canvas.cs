@@ -4,18 +4,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Whiteboard.Models
 {
-    public class Room
+    public class Canvas
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         // Primary key
         public Guid Id { get; set; }
 
-        // Name of room
-        public string Name { get; set; }
-        // Number of maximum amount of connections
-        public int MaxConnections { get; set; }
-
-        public Canvas Canvas { get; set; }
+        // Id of room
+        public Guid RoomId { get; set; }
+        // Content of canvas
+        public byte[] Content { get; set; }
+        // Last time of modification
+        public DateTime ModifiedAt { get; set; }
     }
 }

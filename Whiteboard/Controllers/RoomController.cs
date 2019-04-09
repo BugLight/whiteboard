@@ -27,6 +27,10 @@ namespace Whiteboard.Controllers
             if (room.MaxConnections <= 0)
                 return BadRequest();
 
+            room.Canvas = new Canvas()
+            {
+                ModifiedAt = DateTime.Now
+            };
             context.Rooms.Add(room);
             context.SaveChanges();
 

@@ -15,7 +15,6 @@
       <canvas id="canvas" width="1000" height="600" @mouseenter="initCanvas" @mousedown="mouseDown" 
               @mousemove="mouseMove" @mouseleave="mouseLeave"></canvas>
     </div>
-    <button @click="initCanvas">draw</button>
   </div>
 </template>
 

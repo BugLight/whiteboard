@@ -85,9 +85,10 @@
 
           var canvasElem = document.getElementById('canvas');
 
-          canvasElem.addEventListener("mousedown", onMouseDown, false);
-          canvasElem.addEventListener("mousemove", onMouseMove, false);
-          canvasElem.addEventListener("mouseup", onMouseUp, false);
+          canvasElem.addEventListener('mousedown', onMouseDown, false);
+          canvasElem.addEventListener('mousemove', onMouseMove, false);
+          canvasElem.addEventListener('mouseup', onMouseUp, false);
+          canvasElem.addEventListener('mouseleave', onMouseLeave, false);
 
           var mousePressed = false;
 
@@ -95,7 +96,6 @@
             mousePressed = true;
             ctx.strokeStyle = "#000000";
             ctx.beginPath();
-            console.log(e.pageX - canvasElem.offsetLeft + " " + e.pageY - canvasElem.offsetTop);
             ctx.moveTo(e.pageX - canvasElem.offsetLeft, e.pageY - canvasElem.offsetTop);
           }
 
@@ -108,6 +108,13 @@
 
           function onMouseUp(e) {
             mousePressed = false;
+          }
+
+          function onMouseLeave(e) {
+            if (mousePressed) {
+              ctx.lineTo(e.pageX - canvasElem.offsetLeft, e.pageY - canvasElem.offsetTop);
+              ctx.stroke();
+            }
           }
           
         }

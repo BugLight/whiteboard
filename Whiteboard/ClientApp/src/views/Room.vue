@@ -1,5 +1,5 @@
 ﻿<template>
-  <div class="room">
+  <div class="room" @mouseup="mouseUp">
     <header>
       <div class="room__name">
         <span>{{ activeRoom.name }}</span>
@@ -12,7 +12,8 @@
       </div>
     </header>
     <div class="room__canvas">
-      <canvas id="canvas" width="1000" height="600" @mouseenter="initCanvas"></canvas>
+      <canvas id="canvas" width="1000" height="600" @mouseenter="initCanvas" @mousedown="mouseDown" 
+              @mousemove="mouseMove" @mouseleave="mouseLeave"></canvas>
     </div>
     <button @click="initCanvas">draw</button>
   </div>
@@ -39,20 +40,8 @@
     }
   };
 
-
-  function Draw(x, y, isDown) {
-    if (isDown) {
-      ctx.beginPath();
-      ctx.strokeStyle = $('#selColor').val();
-      ctx.lineWidth = $('#selWidth').val();
-      ctx.lineJoin = "round";
-      ctx.moveTo(lastX, lastY);
-      ctx.lineTo(x, y);
-      ctx.closePath();
-      ctx.stroke();
-    }
-    lastX = x; lastY = y;
-  }
+  var mousePressed = false;
+  var canvasElem, ctx;
 
   export default {
     computed: {
@@ -81,42 +70,30 @@
       initCanvas() {
         var canvas = document.getElementById('canvas');
         if (canvas && canvas.getContext) {
-          var ctx = canvas.getContext('2d');
+          ctx = canvas.getContext('2d');
 
-          var canvasElem = document.getElementById('canvas');
-
-          canvasElem.addEventListener('mousedown', onMouseDown, false);
-          canvasElem.addEventListener('mousemove', onMouseMove, false);
-          document.addEventListener('mouseup', onMouseUp, false);
-          canvasElem.addEventListener('mouseleave', onMouseLeave, false);
-
-          var mousePressed = false;
-
-          function onMouseDown(e) {
-            mousePressed = true;
-            ctx.strokeStyle = "#000000";
-            ctx.beginPath();
-            ctx.moveTo(e.pageX - canvasElem.offsetLeft, e.pageY - canvasElem.offsetTop);
-          }
-
-          function onMouseMove(e) {
-            if (mousePressed) {
-              ctx.lineTo(e.pageX - canvasElem.offsetLeft, e.pageY - canvasElem.offsetTop);
-              ctx.stroke();
-            }
-          }
-
-          function onMouseUp(e) {
-            mousePressed = false;
-          }
-
-          function onMouseLeave(e) {
-            if (mousePressed) {
-              ctx.lineTo(e.pageX - canvasElem.offsetLeft, e.pageY - canvasElem.offsetTop);
-              ctx.stroke();
-            }
-          }
-          
+          canvasElem = document.getElementById('canvas');   
+        }
+      },
+      mouseDown(e) {
+        mousePressed = true;
+        ctx.strokeStyle = "#000000";
+        ctx.beginPath();
+        ctx.moveTo(e.pageX - canvasElem.offsetLeft, e.pageY - canvasElem.offsetTop);
+      },
+      mouseUp() {
+        mousePressed = false;
+      },
+      mouseMove(e) {
+        if (mousePressed) {
+          ctx.lineTo(e.pageX - canvasElem.offsetLeft, e.pageY - canvasElem.offsetTop);
+          ctx.stroke();
+        }
+      },
+      mouseLeave(e) {
+        if (mousePressed) {
+          ctx.lineTo(e.pageX - canvasElem.offsetLeft, e.pageY - canvasElem.offsetTop);
+          ctx.stroke();
         }
       }
     }

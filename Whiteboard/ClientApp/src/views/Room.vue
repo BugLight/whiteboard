@@ -12,7 +12,7 @@
       </div>
     </header>
     <div class="room__canvas">
-      <canvas id="canvas" width="1000" height="600"></canvas>
+      <canvas id="canvas" width="1000" height="600" @mouseenter="initCanvas"></canvas>
     </div>
     <button @click="initCanvas">draw</button>
   </div>
@@ -87,7 +87,7 @@
 
           canvasElem.addEventListener('mousedown', onMouseDown, false);
           canvasElem.addEventListener('mousemove', onMouseMove, false);
-          canvasElem.addEventListener('mouseup', onMouseUp, false);
+          document.addEventListener('mouseup', onMouseUp, false);
           canvasElem.addEventListener('mouseleave', onMouseLeave, false);
 
           var mousePressed = false;

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using Whiteboard.Models;
 
 namespace Whiteboard
@@ -35,7 +37,7 @@ namespace Whiteboard
         {
             if (!activeRooms.ContainsKey(id))
             {
-                Room room = context.Rooms.Find(id);
+                Room room = context.Rooms.Include(r => r.Canvas).FirstOrDefault(r => r.Id == id);
                 if (room == null)
                     return null;
                 ActiveRoom activeRoom = new ActiveRoom(room);

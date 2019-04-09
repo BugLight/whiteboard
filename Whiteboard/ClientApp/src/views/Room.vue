@@ -96,8 +96,6 @@
           var curX = e.pageX - canvasElem.offsetLeft;
           var curY = e.pageY - canvasElem.offsetTop;
           ctx.moveTo(prevX, prevY);
-          prevX = curX;
-          prevY = curY;
           this.$socket.invoke("Draw", {
             from: {
               x: prevX,
@@ -108,13 +106,15 @@
               y: curY
             }
           })
-            .then(() => {
-              ctx.lineTo(curX, curY);
-              ctx.stroke();
-            })
-            .catch(() => {
-              console.error("Ошибка отправки точек на сервер");
-            });
+          .then(() => {
+            ctx.lineTo(curX, curY);
+            ctx.stroke();
+          })
+          .catch(() => {
+            console.error("Ошибка отправки точек на сервер");
+          });
+          prevX = curX;
+          prevY = curY;
         }
       }
     }

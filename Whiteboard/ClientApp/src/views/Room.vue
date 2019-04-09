@@ -1,5 +1,5 @@
 ﻿<template>
-  <div class="room">
+  <div class="room" @mouseup="mouseUp">
     <header>
       <div class="room__name">
         <span>{{ activeRoom.name }}</span>
@@ -11,6 +11,10 @@
         Подключено пользователей: {{ activeRoom.connectionsCount }} / {{ activeRoom.maxConnections }}
       </div>
     </header>
+    <div class="room__canvas">
+      <canvas id="canvas" width="1000" height="600" @mouseenter="initCanvas" @mousedown="mouseDown" 
+              @mousemove="mouseMove" @mouseleave="mouseLeave"></canvas>
+    </div>
   </div>
 </template>
 
@@ -35,6 +39,9 @@
     }
   };
 
+  var mousePressed = false;
+  var canvasElem, ctx;
+
   export default {
     computed: {
       activeRoom() {
@@ -58,6 +65,33 @@
       share() {
         copyToClipboard(window.location);
         alert('Скопировано в буфер обмена!');
+      },
+      initCanvas() {
+        canvasElem = document.getElementById('canvas');
+        if (canvasElem && canvasElem.getContext) {
+          ctx = canvasElem.getContext('2d');
+        }
+      },
+      mouseDown(e) {
+        mousePressed = true;
+        ctx.strokeStyle = "#000000";
+        ctx.beginPath();
+        ctx.moveTo(e.pageX - canvasElem.offsetLeft, e.pageY - canvasElem.offsetTop);
+      },
+      mouseUp() {
+        mousePressed = false;
+      },
+      mouseMove(e) {
+        if (mousePressed) {
+          ctx.lineTo(e.pageX - canvasElem.offsetLeft, e.pageY - canvasElem.offsetTop);
+          ctx.stroke();
+        }
+      },
+      mouseLeave(e) {
+        if (mousePressed) {
+          ctx.lineTo(e.pageX - canvasElem.offsetLeft, e.pageY - canvasElem.offsetTop);
+          ctx.stroke();
+        }
       }
     }
   }
@@ -77,4 +111,7 @@
     margin 10px
     color #000000
     float right
+
+  #canvas
+    border 1px solid black
 </style>

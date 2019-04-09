@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using System;
+using System.Drawing;
 using System.Threading.Tasks;
 
 namespace Whiteboard.Hubs
@@ -8,6 +9,7 @@ namespace Whiteboard.Hubs
     {
         Task UserJoined(ActiveRoom room);
         Task UserLeft(ActiveRoom room);
+        Task Drew(Movement m);
     }
 
     public class RoomHub : Hub<IRoomClient>
@@ -75,6 +77,16 @@ namespace Whiteboard.Hubs
                 await Clients.Group(id).UserLeft(connection.Room);
                 connection.Room.Leave(connection);
             }   
+        }
+
+        public async Task Draw(Movement m)
+        {
+            var connection = connectionStorage.GetById(Context.ConnectionId);
+            if (connection.Room == null)
+                throw new Exception();
+            var id = connection.Room.Id.ToString();
+            connection.Room.Canvas.DrawLine(Color.Black, m.From, m.To);
+            await Clients.Group(id).Drew(m);
         }
     }
 }

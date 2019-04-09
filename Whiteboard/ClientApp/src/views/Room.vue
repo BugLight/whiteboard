@@ -68,11 +68,9 @@
         alert('Скопировано в буфер обмена!');
       },
       initCanvas() {
-        var canvas = document.getElementById('canvas');
-        if (canvas && canvas.getContext) {
-          ctx = canvas.getContext('2d');
-
-          canvasElem = document.getElementById('canvas');   
+        canvasElem = document.getElementById('canvas');
+        if (canvasElem && canvasElem.getContext) {
+          ctx = canvasElem.getContext('2d');
         }
       },
       mouseDown(e) {

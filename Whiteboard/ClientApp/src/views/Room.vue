@@ -12,9 +12,9 @@
       </div>
     </header>
     <div class="room__canvas">
-      <canvas id="canvas" width="400" height="400"></canvas>
+      <canvas id="canvas" width="1000" height="600"></canvas>
     </div>
-    <button @click="draw">draw</button>
+    <button @click="initCanvas">draw</button>
   </div>
 </template>
 
@@ -40,6 +40,20 @@
   };
 
 
+  function Draw(x, y, isDown) {
+    if (isDown) {
+      ctx.beginPath();
+      ctx.strokeStyle = $('#selColor').val();
+      ctx.lineWidth = $('#selWidth').val();
+      ctx.lineJoin = "round";
+      ctx.moveTo(lastX, lastY);
+      ctx.lineTo(x, y);
+      ctx.closePath();
+      ctx.stroke();
+    }
+    lastX = x; lastY = y;
+  }
+
   export default {
     computed: {
       activeRoom() {
@@ -64,16 +78,38 @@
         copyToClipboard(window.location);
         alert('Скопировано в буфер обмена!');
       },
-      draw() {
+      initCanvas() {
         var canvas = document.getElementById('canvas');
         if (canvas && canvas.getContext) {
           var ctx = canvas.getContext('2d');
-          ctx.strokeStyle = "#000";
-          ctx.fillStyle = "#fc0";
-          ctx.beginPath();
-          ctx.moveTo(0, 0);
-          ctx.lineTo(100, 100);
-          ctx.stroke();
+
+          var canvasElem = document.getElementById('canvas');
+
+          canvasElem.addEventListener("mousedown", onMouseDown, false);
+          canvasElem.addEventListener("mousemove", onMouseMove, false);
+          canvasElem.addEventListener("mouseup", onMouseUp, false);
+
+          var mousePressed = false;
+
+          function onMouseDown(e) {
+            mousePressed = true;
+            ctx.strokeStyle = "#000000";
+            ctx.beginPath();
+            console.log(e.pageX - canvasElem.offsetLeft + " " + e.pageY - canvasElem.offsetTop);
+            ctx.moveTo(e.pageX - canvasElem.offsetLeft, e.pageY - canvasElem.offsetTop);
+          }
+
+          function onMouseMove(e) {
+            if (mousePressed) {
+              ctx.lineTo(e.pageX - canvasElem.offsetLeft, e.pageY - canvasElem.offsetTop);
+              ctx.stroke();
+            }
+          }
+
+          function onMouseUp(e) {
+            mousePressed = false;
+          }
+          
         }
       }
     }

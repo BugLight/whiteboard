@@ -12,7 +12,7 @@
       </div>
     </header>
     <div class="room__canvas">
-      <canvas id="canvas" width="1000" height="600" @mouseenter="initCanvas" @mousedown="mouseDown" 
+      <canvas id="canvas" width="1000" height="600" @mousedown="mouseDown" 
               @mousemove="mouseMove" @mouseleave="mouseMove"></canvas>
     </div>
   </div>
@@ -48,6 +48,9 @@
       activeRoom() {
         return this.$store.state.activeRoom;
       }
+    },
+    mounted() {
+      this.initCanvas();
     },
     created() {
       this.$socket.invoke('UserJoin', this.$route.params.id)

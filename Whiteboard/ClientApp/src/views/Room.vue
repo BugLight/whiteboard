@@ -57,7 +57,7 @@
   var mousePressed = false;
   var canvasElem, ctx;
   var prevX, prevY;
-  var color = "#000000";
+  var curColor = "#000000";
 
   export default {
     computed: {
@@ -85,15 +85,15 @@
       Drew(m) {
         ctx.beginPath();
         ctx.moveTo(m.from.x, m.from.y);
+        ctx.strokeStyle = m.color;
         ctx.lineTo(m.to.x, m.to.y);
-        ctx.StrokeStyle = m.color;
         ctx.stroke();
       }
     },
     methods: {
       setColor(clr) {
-        color = clr;
-        alert(color);
+        curColor = clr;
+        alert(curColor);
       },
       share() {
         copyToClipboard(window.location);
@@ -108,7 +108,7 @@
       mouseDown(e) {
         mousePressed = true;
         //ctx.strokeStyle = "#000000";
-        ctx.strokeStyle = color;
+        //ctx.strokeStyle = curColor;
         ctx.beginPath();
         prevX = e.pageX - canvasElem.offsetLeft;
         prevY = e.pageY - canvasElem.offsetTop;
@@ -130,9 +130,10 @@
               x: curX,
               y: curY
             },
-            color: color
+            color: curColor
           })
           .then(() => {
+            ctx.strokeStyle = curColor;
             ctx.lineTo(curX, curY);
             ctx.stroke();
           })

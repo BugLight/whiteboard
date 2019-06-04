@@ -8,7 +8,7 @@ namespace Whiteboard
 {
     public class ActiveRoomStorage : IActiveRoomStorage
     {
-        private static readonly Dictionary<Guid, ActiveRoom> activeRooms = new Dictionary<Guid, ActiveRoom>();
+        private readonly Dictionary<Guid, ActiveRoom> activeRooms = new Dictionary<Guid, ActiveRoom>();
 
         private readonly AppContext context;
 
@@ -27,7 +27,6 @@ namespace Whiteboard
                 {
                     Remove(room.Id);
                     room.Canvas.Flush();
-                    context.Add((Room)room);
                     context.SaveChanges();
                 }
             };

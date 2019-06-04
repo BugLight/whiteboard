@@ -4,7 +4,7 @@ namespace Whiteboard
 {
     public class ConnectionStorage : IConnectionStorage
     {
-        private static readonly Dictionary<string, Connection> connections = new Dictionary<string, Connection>();
+        private readonly Dictionary<string, Connection> connections = new Dictionary<string, Connection>();
 
         public void Add(string id, Connection item)
         {

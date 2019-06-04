@@ -11,9 +11,24 @@
         Подключено пользователей: {{ activeRoom.connectionsCount }} / {{ activeRoom.maxConnections }}
       </div>
     </header>
+    <button v-on:click="setColor('#000000')">
+      Чёрный
+    </button>
+    <button v-on:click="setColor('ff0000')">
+      Красный
+    </button>
+    <button v-on:click="setColor('#00ff00')">
+      Зелёный
+    </button>
+    <button v-on:click="setColor('#0000ff')">
+      Синий
+    </button>
+    <button v-on:click="setColor('#00ffff')">
+      Бирюзовый
+    </button>
     <div class="room__canvas">
-      <canvas id="canvas" width="1000" height="600" @mousedown="mouseDown" 
-              @mousemove="mouseMove" @mouseleave="mouseMove"></canvas>
+      <canvas id="canvas" width="1000" height="600" @mousedown="mouseDown"
+        @mousemove="mouseMove" @mouseleave="mouseMove"></canvas>
     </div>
   </div>
 </template>
@@ -42,6 +57,7 @@
   var mousePressed = false;
   var canvasElem, ctx;
   var prevX, prevY;
+  var color = "#000000";
 
   export default {
     computed: {
@@ -74,6 +90,10 @@
       }
     },
     methods: {
+      setColor(clr) {
+        color = clr;
+        alert(color);
+      },
       share() {
         copyToClipboard(window.location);
         alert('Скопировано в буфер обмена!');
@@ -90,6 +110,7 @@
         ctx.beginPath();
         prevX = e.pageX - canvasElem.offsetLeft;
         prevY = e.pageY - canvasElem.offsetTop;
+        //color = 
       },
       mouseUp() {
         mousePressed = false;

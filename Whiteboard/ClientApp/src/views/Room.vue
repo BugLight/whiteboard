@@ -84,13 +84,11 @@
         if (canvasElem && canvasElem.getContext) {
           ctx = canvasElem.getContext('2d');
 
-          var xmlHttp = new XMLHttpRequest();
-          var addrString = "/api/rooms/" + toString(this.$route.params.id) + "/canvas";
-          xmlHttp.open("GET", addrString, false);
-          xmlHttp.send(null);
+          var addrString = "/api/rooms/" + this.$route.params.id + "/canvas";
+          alert(this.$route.params.id);
 
           var img = new Image();
-          img.src = 'https://mdn.mozillademos.org/files/5397/rhino.jpg';
+          img.src = addrString;
           img.onload = () => {
             ctx.drawImage(img, 0, 0);
           }; 

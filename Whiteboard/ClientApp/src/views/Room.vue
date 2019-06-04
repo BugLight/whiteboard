@@ -86,6 +86,7 @@
         ctx.beginPath();
         ctx.moveTo(m.from.x, m.from.y);
         ctx.lineTo(m.to.x, m.to.y);
+        ctx.StrokeStyle = m.color;
         ctx.stroke();
       }
     },
@@ -128,7 +129,8 @@
             to: {
               x: curX,
               y: curY
-            }
+            },
+            color: color
           })
           .then(() => {
             ctx.lineTo(curX, curY);

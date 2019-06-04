@@ -9,5 +9,6 @@ namespace Whiteboard
         public Point From { get; set; }
         [JsonConverter(typeof(PointJsonConverter))]
         public Point To { get; set; }
+        public string Color { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿<template>
-  <div class="room" @mouseup="mouseUp" @mouseenter ="loadImage">
+  <div class="room" @mouseup="mouseUp">
     <header>
       <div class="room__name">
         <span>{{ activeRoom.name }}</span>
@@ -42,7 +42,6 @@
   var mousePressed = false;
   var canvasElem, ctx;
   var prevX, prevY;
-  var image = document.getElementById('source');
 
 
   export default {
@@ -84,17 +83,18 @@
         canvasElem = document.getElementById('canvas');
         if (canvasElem && canvasElem.getContext) {
           ctx = canvasElem.getContext('2d');
-        }   
-      },
-      loadImage() {
-        var xmlHttp = new XMLHttpRequest();
-        var addrString = "/api/rooms/" + toString(this.$route.params.id) + "/canvas";
-        xmlHttp.open("GET", addrString, false);
-        xmlHttp.send(null);
 
-        var image1 = new Image();
-        image1.src = 'https://mdn.mozillademos.org/files/5397/rhino.jpg';
-        ctx.drawImage(image1, 0, 0); 
+          var xmlHttp = new XMLHttpRequest();
+          var addrString = "/api/rooms/" + toString(this.$route.params.id) + "/canvas";
+          xmlHttp.open("GET", addrString, false);
+          xmlHttp.send(null);
+
+          var img = new Image();
+          img.src = 'https://mdn.mozillademos.org/files/5397/rhino.jpg';
+          img.onload = () => {
+            ctx.drawImage(img, 0, 0);
+          }; 
+        }   
       },
       mouseDown(e) {
         mousePressed = true;

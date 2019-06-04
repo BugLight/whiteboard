@@ -1,5 +1,5 @@
 ﻿<template>
-  <div class="room" @mouseup="mouseUp">
+  <div class="room" @mouseup="mouseUp" @mouseenter ="loadImage">
     <header>
       <div class="room__name">
         <span>{{ activeRoom.name }}</span>
@@ -12,7 +12,7 @@
       </div>
     </header>
     <div class="room__canvas">
-      <canvas id="canvas" width="1000" height="600" @mousedown="mouseDown" 
+      <canvas id="canvas" width="1000" height="600" @mousedown="mouseDown"
               @mousemove="mouseMove" @mouseleave="mouseMove"></canvas>
     </div>
   </div>
@@ -42,6 +42,8 @@
   var mousePressed = false;
   var canvasElem, ctx;
   var prevX, prevY;
+  var image = document.getElementById('source');
+
 
   export default {
     computed: {
@@ -82,14 +84,17 @@
         canvasElem = document.getElementById('canvas');
         if (canvasElem && canvasElem.getContext) {
           ctx = canvasElem.getContext('2d');
-        }
+        }   
+      },
+      loadImage() {
         var xmlHttp = new XMLHttpRequest();
-        var addrString = "/api/rooms/" + toString(ctx.params.id) + "/canvas";
+        var addrString = "/api/rooms/" + toString(this.$route.params.id) + "/canvas";
         xmlHttp.open("GET", addrString, false);
         xmlHttp.send(null);
-        var image = new Image(1000, 600);
-        image.src = xmlHttp.response;
-        ctx.drawImage(this, 0, 0);
+
+        var image1 = new Image();
+        image1.src = 'https://mdn.mozillademos.org/files/5397/rhino.jpg';
+        ctx.drawImage(image1, 0, 0); 
       },
       mouseDown(e) {
         mousePressed = true;

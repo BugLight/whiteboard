@@ -12,7 +12,7 @@
       </div>
     </header>
     <div class="room__canvas">
-      <canvas id="canvas" width="1000" height="600" @mousedown="mouseDown" 
+      <canvas id="canvas" width="1000" height="600" @mousedown="mouseDown"
               @mousemove="mouseMove" @mouseleave="mouseMove"></canvas>
     </div>
   </div>
@@ -42,6 +42,7 @@
   var mousePressed = false;
   var canvasElem, ctx;
   var prevX, prevY;
+
 
   export default {
     computed: {
@@ -82,7 +83,18 @@
         canvasElem = document.getElementById('canvas');
         if (canvasElem && canvasElem.getContext) {
           ctx = canvasElem.getContext('2d');
-        }
+
+          var xmlHttp = new XMLHttpRequest();
+          var addrString = "/api/rooms/" + toString(this.$route.params.id) + "/canvas";
+          xmlHttp.open("GET", addrString, false);
+          xmlHttp.send(null);
+
+          var img = new Image();
+          img.src = 'https://mdn.mozillademos.org/files/5397/rhino.jpg';
+          img.onload = () => {
+            ctx.drawImage(img, 0, 0);
+          }; 
+        }   
       },
       mouseDown(e) {
         mousePressed = true;

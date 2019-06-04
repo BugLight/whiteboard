@@ -84,9 +84,7 @@
         if (canvasElem && canvasElem.getContext) {
           ctx = canvasElem.getContext('2d');
 
-          var addrString = "/api/rooms/" + this.$route.params.id + "/canvas";
-          alert(this.$route.params.id);
-
+          var addrString = "http://localhost:5000/api/rooms/" + this.$route.params.id + "/canvas";
           var img = new Image();
           img.src = addrString;
           img.onload = () => {

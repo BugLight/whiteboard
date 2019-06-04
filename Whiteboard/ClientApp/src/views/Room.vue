@@ -14,7 +14,7 @@
     <button v-on:click="setColor('#000000')">
       Чёрный
     </button>
-    <button v-on:click="setColor('ff0000')">
+    <button v-on:click="setColor('#ff0000')">
       Красный
     </button>
     <button v-on:click="setColor('#00ff00')">
@@ -106,11 +106,11 @@
       },
       mouseDown(e) {
         mousePressed = true;
-        ctx.strokeStyle = "#000000";
+        //ctx.strokeStyle = "#000000";
+        ctx.strokeStyle = color;
         ctx.beginPath();
         prevX = e.pageX - canvasElem.offsetLeft;
         prevY = e.pageY - canvasElem.offsetTop;
-        //color = 
       },
       mouseUp() {
         mousePressed = false;

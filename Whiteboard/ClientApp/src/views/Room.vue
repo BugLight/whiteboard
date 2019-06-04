@@ -83,6 +83,13 @@
         if (canvasElem && canvasElem.getContext) {
           ctx = canvasElem.getContext('2d');
         }
+        var xmlHttp = new XMLHttpRequest();
+        var addrString = "/api/rooms/" + toString(ctx.params.id) + "/canvas";
+        xmlHttp.open("GET", addrString, false);
+        xmlHttp.send(null);
+        var image = new Image(1000, 600);
+        image.src = xmlHttp.response;
+        ctx.drawImage(this, 0, 0);
       },
       mouseDown(e) {
         mousePressed = true;

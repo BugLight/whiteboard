@@ -59,8 +59,7 @@
 
   var mousePressed = false;
   var canvasElem, ctx;
-  var prevX, prevY;
-  var color = "#000000";
+  var prevX, prevY
 
   export default {
     computed: {
@@ -70,7 +69,7 @@
     },
     data() {
       return {
-        color: color,
+        color: "#000000",
       }
     },
     mounted() {

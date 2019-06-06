@@ -11,21 +11,24 @@
         Подключено пользователей: {{ activeRoom.connectionsCount }} / {{ activeRoom.maxConnections }}
       </div>
     </header>
-    <button v-on:click="setColor('#000000')">
-      Чёрный
-    </button>
-    <button v-on:click="setColor('#ff0000')">
-      Красный
-    </button>
-    <button v-on:click="setColor('#00ff00')">
-      Зелёный
-    </button>
-    <button v-on:click="setColor('#0000ff')">
-      Синий
-    </button>
-    <button v-on:click="setColor('#00ffff')">
-      Бирюзовый
-    </button>
+    <div class="color__buttons">
+      <button v-on:click="setColor('#000000')">
+        Чёрный
+      </button>
+      <button v-on:click="setColor('#ff0000')">
+        Красный
+      </button>
+      <button v-on:click="setColor('#00ff00')">
+        Зелёный
+      </button>
+      <button v-on:click="setColor('#0000ff')">
+        Синий
+      </button>
+      <button v-on:click="setColor('#00ffff')">
+        Бирюзовый
+      </button>
+      Выбранный цвет: {{ color }}
+    </div>
     <div class="room__canvas">
       <canvas id="canvas" width="1000" height="600" @mousedown="mouseDown"
         @mousemove="mouseMove" @mouseleave="mouseMove"></canvas>
@@ -65,6 +68,11 @@
         return this.$store.state.activeRoom;
       }
     },
+    data() {
+      return {
+        color: color,
+      }
+    },
     mounted() {
       this.initCanvas();
     },
@@ -77,7 +85,7 @@
         .catch(() => alert('Ошибка присоединения. Проверьте правильность ввода данных комнаты и попробуйте еще раз.\nЕсли проблема не решена, сообщите о ней по адресу buglight@kistriver.com'));
       next();
     },
-    beforeRouteLeave(to, from, next) {
+    beforeRouteLeave(to, from, next ) {
       this.$socket.invoke('UserLeave');
       next();
     },
@@ -92,8 +100,7 @@
     },
     methods: {
       setColor(clr) {
-        color = clr;
-        alert(color);
+        this.color = clr;
       },
       share() {
         copyToClipboard(window.location);
@@ -108,7 +115,7 @@
       mouseDown(e) {
         mousePressed = true;
         //ctx.strokeStyle = "#000000";
-        ctx.strokeStyle = color;
+        ctx.strokeStyle = this.color;
         ctx.beginPath();
         prevX = e.pageX - canvasElem.offsetLeft;
         prevY = e.pageY - canvasElem.offsetTop;
@@ -130,7 +137,7 @@
               x: curX,
               y: curY
             },
-            color: color
+            color: this.color
           })
           .then(() => {
             ctx.lineTo(curX, curY);

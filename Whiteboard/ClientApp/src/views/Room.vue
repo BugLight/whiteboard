@@ -62,7 +62,8 @@
 
   var mousePressed = false;
   var canvasElem, ctx;
-  var prevX, prevY
+  var prevX, prevY;
+
 
   export default {
     computed: {
@@ -95,8 +96,8 @@
       Drew(m) {
         ctx.beginPath();
         ctx.moveTo(m.from.x, m.from.y);
+        ctx.strokeStyle = m.color;
         ctx.lineTo(m.to.x, m.to.y);
-        ctx.StrokeStyle = m.color;
         ctx.stroke();
       }
     },
@@ -116,8 +117,6 @@
       },
       mouseDown(e) {
         mousePressed = true;
-        //ctx.strokeStyle = "#000000";
-        ctx.strokeStyle = this.color;
         ctx.beginPath();
         prevX = e.pageX - canvasElem.offsetLeft;
         prevY = e.pageY - canvasElem.offsetTop;
@@ -142,6 +141,7 @@
             color: this.color
           })
           .then(() => {
+            ctx.strokeStyle = this.color;
             ctx.lineTo(curX, curY);
             ctx.stroke();
           })

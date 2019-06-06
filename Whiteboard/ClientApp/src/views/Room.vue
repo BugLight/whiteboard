@@ -27,11 +27,14 @@
       <button v-on:click="setColor('#00ffff')">
         Бирюзовый
       </button>
-      Выбранный цвет: {{ color }}
+      <div class="color__part">
+        <span id="color__text">Выбранный цвет: </span>
+        <button class="color__shower"></button>
+      </div>
     </div>
     <div class="room__canvas">
       <canvas id="canvas" width="1000" height="600" @mousedown="mouseDown"
-        @mousemove="mouseMove" @mouseleave="mouseMove"></canvas>
+              @mousemove="mouseMove" @mouseleave="mouseMove"></canvas>
     </div>
   </div>
 </template>
@@ -100,6 +103,7 @@
     methods: {
       setColor(clr) {
         this.color = clr;
+        color_shower.style.color = clr;
       },
       share() {
         copyToClipboard(window.location);
@@ -167,6 +171,19 @@
     margin 10px
     color #000000
     float right
+
+  #color__test
+    padding-top 10px
+
+  .color__part
+    margin-top 7px
+
+  .color__shower
+    height 18px
+    width 30px
+    margin 5px
+    padding-top 10px
+    background-color #000000
 
   #canvas
     border 1px solid black

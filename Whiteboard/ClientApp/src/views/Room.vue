@@ -103,8 +103,6 @@
     methods: {
       setColor(clr) {
         this.color = clr;
-        colorShower = document.getElementById('color__shower');
-        colorShower.style.backgroundColor = "red";
       },
       share() {
         copyToClipboard(window.location);

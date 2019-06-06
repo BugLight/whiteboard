@@ -28,7 +28,7 @@
         Бирюзовый
       </button>
       <div class="color__part">
-        <span id="color__text">Выбранный цвет: </span>
+        <span>Выбранный цвет: </span>
         <button class="color__shower"></button>
       </div>
     </div>
@@ -172,8 +172,8 @@
     color #000000
     float right
 
-  #color__test
-    padding-top 10px
+  .color__buttons
+    margin-top 5px
 
   .color__part
     margin-top 7px

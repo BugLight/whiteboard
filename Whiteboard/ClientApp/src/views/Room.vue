@@ -29,7 +29,7 @@
       </button>
       <div class="color__part">
         <span>Выбранный цвет: </span>
-        <button class="color__shower"></button>
+        <button id="color__shower" v-bind:style ="{ 'background-color': color}"></button>
       </div>
     </div>
     <div class="room__canvas">
@@ -103,7 +103,8 @@
     methods: {
       setColor(clr) {
         this.color = clr;
-        color_shower.style.color = clr;
+        colorShower = document.getElementById('color__shower');
+        colorShower.style.backgroundColor = "red";
       },
       share() {
         copyToClipboard(window.location);
@@ -178,12 +179,11 @@
   .color__part
     margin-top 7px
 
-  .color__shower
+  #color__shower
     height 18px
     width 30px
     margin 5px
     padding-top 10px
-    background-color #000000
 
   #canvas
     border 1px solid black

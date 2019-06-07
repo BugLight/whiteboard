@@ -20,7 +20,7 @@ namespace Whiteboard.Test
         public void TestInitialCount()
         {
             var activeRoom = new ActiveRoom(room);
-            Assert.That(activeRoom.ConnectionsCount == 0);
+            Assert.That(activeRoom.connectionsCount == 0);
         }
 
         [Test]
@@ -30,9 +30,9 @@ namespace Whiteboard.Test
             {
                 MaxConnections = 1
             };
-            var count = activeRoom.ConnectionsCount;
+            var count = activeRoom.connectionsCount;
             activeRoom.Join(connection);
-            Assert.That(activeRoom.ConnectionsCount == count + 1);
+            Assert.That(activeRoom.connectionsCount == count + 1);
         }
 
         [Test]
@@ -42,10 +42,10 @@ namespace Whiteboard.Test
             {
                 MaxConnections = 1
             };
-            var count = activeRoom.ConnectionsCount;
+            var count = activeRoom.connectionsCount;
             activeRoom.Join(connection);
             activeRoom.Leave(connection);
-            Assert.That(activeRoom.ConnectionsCount == count);
+            Assert.That(activeRoom.connectionsCount == count);
         }
 
         [Test]

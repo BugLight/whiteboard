@@ -5,15 +5,22 @@ namespace Whiteboard
 {
     public class ActiveRoom : Room
     {
-        public int ConnectionsCount { get; private set; }
-        private readonly object connectionsCountLock = new object();
+        private int connectionsCount = 0;
+        public int ConnectionsCount
+        {
+            get
+            {
+                lock (roomLock)
+                    return connectionsCount;
+            }
+        }
+        private readonly object roomLock = new object();
 
         public event EventHandler<Connection> OnJoined;
         public event EventHandler<Connection> OnLeft;
 
         public ActiveRoom(Room room)
         {
-            ConnectionsCount = 0;
             MaxConnections = room.MaxConnections;
             Name = room.Name;
             Id = room.Id;
@@ -22,28 +29,30 @@ namespace Whiteboard
 
         public void Join(Connection connection)
         {
-            lock (connectionsCountLock)
+            lock (roomLock)
             {
-                if (ConnectionsCount == MaxConnections)
+                if (connectionsCount == MaxConnections)
                     throw new Exception();
-                ConnectionsCount++;
+                connectionsCount++;
+                connection.Room = this;
+                connection.OnClosed += ConnectionClosed;
             }
-            connection.Room = this;
-            connection.OnClosed += ConnectionClosed;
-            OnJoined?.Invoke(this, connection);
+            var handler = OnJoined;
+            handler?.Invoke(this, connection);
         }
 
         public void Leave(Connection connection)
         {
-            lock (connectionsCountLock)
+            lock (roomLock)
             {
-                if (ConnectionsCount == 0)
+                if (connectionsCount == 0)
                     throw new Exception();
-                ConnectionsCount--;
+                connectionsCount--;
+                connection.OnClosed -= ConnectionClosed;
+                connection.Room = null;
             }
-            connection.OnClosed -= ConnectionClosed;
-            connection.Room = null;
-            OnLeft?.Invoke(this, connection);
+            var handler = OnLeft;
+            handler?.Invoke(this, connection);
         }
 
         private void ConnectionClosed(object sender, EventArgs args)

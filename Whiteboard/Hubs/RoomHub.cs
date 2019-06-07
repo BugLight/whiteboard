@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Drawing;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace Whiteboard.Hubs
@@ -25,7 +26,7 @@ namespace Whiteboard.Hubs
 
         public override async Task OnConnectedAsync()
         {
-            await base.OnConnectedAsync();
+            await base.OnConnectedAsync().ConfigureAwait(false);
             var connection = connectionStorage.GetById(Context.ConnectionId);
             if (connection == null)
             {
@@ -36,7 +37,7 @@ namespace Whiteboard.Hubs
 
         public override async Task OnDisconnectedAsync(Exception exception)
         {
-            await base.OnDisconnectedAsync(exception);
+            await base.OnDisconnectedAsync(exception).ConfigureAwait(false);
             var connection = connectionStorage.GetById(Context.ConnectionId);
             if (connection != null)
             {
@@ -45,8 +46,8 @@ namespace Whiteboard.Hubs
                 if (room != null)
                 {
                     var id = room.Id.ToString();
-                    await Groups.RemoveFromGroupAsync(Context.ConnectionId, id);
-                    await Clients.Group(id).UserLeft(room);
+                    await Groups.RemoveFromGroupAsync(Context.ConnectionId, id).ConfigureAwait(false);
+                    await Clients.Group(id).UserLeft(room).ConfigureAwait(false);
                 }
             }
         }
@@ -62,8 +63,8 @@ namespace Whiteboard.Hubs
             if (room != null)
             {
                 room.Join(connection);
-                await Groups.AddToGroupAsync(Context.ConnectionId, id.ToString());
-                await Clients.Group(id.ToString()).UserJoined(connection.Room);
+                await Groups.AddToGroupAsync(Context.ConnectionId, id.ToString()).ConfigureAwait(false);
+                await Clients.Group(id.ToString()).UserJoined(connection.Room).ConfigureAwait(false);
             }
         }
 
@@ -73,8 +74,8 @@ namespace Whiteboard.Hubs
             if (connection.Room != null)
             {
                 var id = connection.Room.Id.ToString();
-                await Groups.RemoveFromGroupAsync(Context.ConnectionId, id);
-                await Clients.Group(id).UserLeft(connection.Room);
+                await Groups.RemoveFromGroupAsync(Context.ConnectionId, id).ConfigureAwait(false);
+                await Clients.Group(id).UserLeft(connection.Room).ConfigureAwait(false);
                 connection.Room.Leave(connection);
             }   
         }
@@ -85,7 +86,13 @@ namespace Whiteboard.Hubs
             if (connection.Room == null)
                 throw new Exception();
             var id = connection.Room.Id.ToString();
-            connection.Room.Canvas.DrawLine(Color.Black, m.From, m.To);
+
+            int r = int.Parse(m.Color.Substring(1, 2), NumberStyles.HexNumber);
+            int g = int.Parse(m.Color.Substring(3, 2), NumberStyles.HexNumber);
+            int b = int.Parse(m.Color.Substring(5, 2), NumberStyles.HexNumber);
+            Color clr = Color.FromArgb(r, g, b);
+
+            connection.Room.Canvas.DrawLine(clr, m.From, m.To);
             await Clients.Group(id).Drew(m);
         }
     }

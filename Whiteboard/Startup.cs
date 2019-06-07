@@ -27,11 +27,16 @@ namespace Whiteboard
 
             services.AddSignalR();
 
-            string connectionString = @"Data Source = DESKTOP-0C0P3KK\SQLEXPRESS; Initial Catalog = Whiteboard; Integrated Security = true";
+            string connectionString = Configuration["ConnectionString:DefaultConnection"];
             services.AddDbContext<AppContext>(options => options.UseSqlServer(connectionString));
 
-            services.AddScoped<IConnectionStorage, ConnectionStorage>();
-            services.AddScoped<IActiveRoomStorage, ActiveRoomStorage>();
+            var builder = new DbContextOptionsBuilder<AppContext>();
+            builder.UseSqlServer(connectionString);
+
+            services.AddSingleton<DbContextOptions>(builder.Options);
+
+            services.AddSingleton<IConnectionStorage, ConnectionStorage>();
+            services.AddSingleton<IActiveRoomStorage, ActiveRoomStorage>();
 
             services.AddCors();
         }

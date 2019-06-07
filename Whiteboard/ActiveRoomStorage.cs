@@ -33,7 +33,10 @@ namespace Whiteboard
                     Remove(room.Id);
                     room.Canvas.Flush();
                     using (var context = CreateContext())
+                    {
+                        context.Update(room);
                         context.SaveChanges();
+                    }
                 }
             };
         }

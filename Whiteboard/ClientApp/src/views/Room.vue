@@ -117,6 +117,7 @@
       },
       mouseDown(e) {
         mousePressed = true;
+        ctx.strokeStyle = this.color;
         ctx.beginPath();
         prevX = e.pageX - canvasElem.offsetLeft;
         prevY = e.pageY - canvasElem.offsetTop;

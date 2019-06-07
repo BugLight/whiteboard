@@ -11,6 +11,27 @@
         Подключено пользователей: {{ activeRoom.connectionsCount }} / {{ activeRoom.maxConnections }}
       </div>
     </header>
+    <div class="color__buttons">
+      <button v-on:click="setColor('#000000')">
+        Чёрный
+      </button>
+      <button v-on:click="setColor('#ff0000')">
+        Красный
+      </button>
+      <button v-on:click="setColor('#00ff00')">
+        Зелёный
+      </button>
+      <button v-on:click="setColor('#0000ff')">
+        Синий
+      </button>
+      <button v-on:click="setColor('#00ffff')">
+        Бирюзовый
+      </button>
+      <div class="color__part">
+        <span>Выбранный цвет: </span>
+        <button id="color__shower" v-bind:style ="{ 'background-color': color}"></button>
+      </div>
+    </div>
     <div class="room__canvas">
       <canvas id="canvas" width="1000" height="600" @mousedown="mouseDown"
               @mousemove="mouseMove" @mouseleave="mouseMove"></canvas>
@@ -50,6 +71,11 @@
         return this.$store.state.activeRoom;
       }
     },
+    data() {
+      return {
+        color: "#000000",
+      }
+    },
     mounted() {
       this.initCanvas();
     },
@@ -62,7 +88,7 @@
         .catch(() => alert('Ошибка присоединения. Проверьте правильность ввода данных комнаты и попробуйте еще раз.\nЕсли проблема не решена, сообщите о ней по адресу buglight@kistriver.com'));
       next();
     },
-    beforeRouteLeave(to, from, next) {
+    beforeRouteLeave(to, from, next ) {
       this.$socket.invoke('UserLeave');
       next();
     },
@@ -70,11 +96,15 @@
       Drew(m) {
         ctx.beginPath();
         ctx.moveTo(m.from.x, m.from.y);
+        ctx.strokeStyle = m.color;
         ctx.lineTo(m.to.x, m.to.y);
         ctx.stroke();
       }
     },
     methods: {
+      setColor(clr) {
+        this.color = clr;
+      },
       share() {
         copyToClipboard(window.location);
         alert('Скопировано в буфер обмена!');
@@ -94,7 +124,7 @@
       },
       mouseDown(e) {
         mousePressed = true;
-        ctx.strokeStyle = "#000000";
+        ctx.strokeStyle = this.color;
         ctx.beginPath();
         prevX = e.pageX - canvasElem.offsetLeft;
         prevY = e.pageY - canvasElem.offsetTop;
@@ -115,9 +145,11 @@
             to: {
               x: curX,
               y: curY
-            }
+            },
+            color: this.color
           })
           .then(() => {
+            ctx.strokeStyle = this.color;
             ctx.lineTo(curX, curY);
             ctx.stroke();
           })
@@ -146,6 +178,18 @@
     margin 10px
     color #000000
     float right
+
+  .color__buttons
+    margin-top 5px
+
+  .color__part
+    margin-top 7px
+
+  #color__shower
+    height 18px
+    width 30px
+    margin 5px
+    padding-top 10px
 
   #canvas
     border 1px solid black

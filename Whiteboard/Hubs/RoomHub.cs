@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Drawing;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace Whiteboard.Hubs
@@ -85,7 +86,13 @@ namespace Whiteboard.Hubs
             if (connection.Room == null)
                 throw new Exception();
             var id = connection.Room.Id.ToString();
-            connection.Room.Canvas.DrawLine(Color.Black, m.From, m.To);
+
+            int r = int.Parse(m.Color.Substring(1, 2), NumberStyles.HexNumber);
+            int g = int.Parse(m.Color.Substring(3, 2), NumberStyles.HexNumber);
+            int b = int.Parse(m.Color.Substring(5, 2), NumberStyles.HexNumber);
+            Color clr = Color.FromArgb(r, g, b);
+
+            connection.Room.Canvas.DrawLine(clr, m.From, m.To);
             await Clients.Group(id).Drew(m);
         }
     }

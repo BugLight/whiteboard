@@ -33,10 +33,8 @@ namespace Whiteboard
             var builder = new DbContextOptionsBuilder<AppContext>();
             builder.UseSqlServer(connectionString);
 
-            services.AddSingleton<DbContextOptions>(builder.Options);
-
             services.AddSingleton<IConnectionStorage, ConnectionStorage>();
-            services.AddSingleton<IActiveRoomStorage, ActiveRoomStorage>();
+            services.AddSingleton<IActiveRoomStorage, ActiveRoomStorage>(_ => new ActiveRoomStorage(new AppContext(builder.Options)));
 
             services.AddCors();
         }

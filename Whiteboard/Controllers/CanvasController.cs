@@ -16,7 +16,9 @@ namespace Whiteboard.Controllers
         [HttpGet]
         public ActionResult Get(Guid id)
         {
-            var canvas = storage.GetById(id).Canvas;
+            var canvas = storage.GetById(id)?.Canvas;
+            if (canvas == null)
+                return NotFound();
             return File(canvas.GetBytes(), "image/png");
         }
     }

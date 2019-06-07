@@ -17,8 +17,7 @@ namespace Whiteboard.Test
             var options = new DbContextOptionsBuilder<AppContext>()
                 .UseInMemoryDatabase("test")
                 .Options;
-            context = new AppContext(options);
-            activeRoomStorage = new ActiveRoomStorage(context);
+            activeRoomStorage = new ActiveRoomStorage(options);
         }
 
         [Test]

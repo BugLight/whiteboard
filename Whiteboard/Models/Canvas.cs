@@ -24,19 +24,20 @@ namespace Whiteboard.Models
         [NotMapped]
         private Image buffer;
         [NotMapped]
-        private readonly object bufferLock = new object(); 
+        private readonly object canvasLock = new object(); 
 
         public byte[] GetBytes()
         {
             Flush();
             byte[] tmp = new byte[Content.Length];
-            Content.CopyTo(tmp, 0);
+            lock (canvasLock)
+                Content.CopyTo(tmp, 0);
             return tmp;
         }
 
         public Image GetImage()
         {
-            lock (bufferLock)
+            lock (canvasLock)
             {
                 if (buffer == null)
                     InitBuffer();
@@ -59,7 +60,7 @@ namespace Whiteboard.Models
 
         public void DrawLine(Color color, Point from, Point to)
         {
-            lock (bufferLock)
+            lock (canvasLock)
             {
                 if (buffer == null)
                     InitBuffer();
@@ -73,7 +74,7 @@ namespace Whiteboard.Models
 
         public void Flush()
         {
-            lock (bufferLock)
+            lock (canvasLock)
             {
                 if (buffer == null)
                     InitBuffer();

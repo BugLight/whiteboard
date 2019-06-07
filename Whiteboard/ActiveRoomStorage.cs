@@ -24,7 +24,7 @@ namespace Whiteboard
 
         public void Add(Guid id, ActiveRoom item)
         {
-            activeRooms[id] = item;
+            activeRooms.TryAdd(id, item);
             item.OnLeft += (sender, args) =>
             {
                 var room = (ActiveRoom)sender;
@@ -40,18 +40,17 @@ namespace Whiteboard
 
         public ActiveRoom GetById(Guid id)
         {
-            if (!activeRooms.ContainsKey(id))
+            if (!activeRooms.TryGetValue(id, out var activeRoom))
             {
                 Room room;
                 using (var context = CreateContext())
                     room = context.Rooms.Include(r => r.Canvas).FirstOrDefault(r => r.Id == id);
                 if (room == null)
                     return null;
-                ActiveRoom activeRoom = new ActiveRoom(room);
+                activeRoom = new ActiveRoom(room);
                 Add(room.Id, activeRoom);
-                return activeRoom;
             }
-            return activeRooms[id];
+            return activeRoom;
         }
 
         public void Remove(Guid id)

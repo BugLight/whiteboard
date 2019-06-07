@@ -12,14 +12,18 @@ namespace Whiteboard
             {
                 Remove(id);
             };
-            connections[id] = item;
+            connections.TryAdd(id, item);
         }
 
         public Connection GetById(string id)
         {
             if (!connections.ContainsKey(id))
                 return null;
-            return connections[id];
+            if (connections.TryGetValue(id, out var connection))
+                return connection;
+            else
+                return null;
+
         }
 
         public void Remove(string id)

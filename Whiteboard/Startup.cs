@@ -27,7 +27,7 @@ namespace Whiteboard
 
             services.AddSignalR();
 
-            string connectionString = @"Data Source = DESKTOP-L2AHU82; Initial Catalog = Whiteboard; Integrated Security = true";
+            string connectionString = Configuration["ConnectionString:DefaultConnection"];
             services.AddDbContext<AppContext>(options => options.UseSqlServer(connectionString));
 
             var builder = new DbContextOptionsBuilder<AppContext>();

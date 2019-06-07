@@ -124,8 +124,6 @@
       },
       mouseDown(e) {
         mousePressed = true;
-        ctx.strokeStyle = this.color;
-        ctx.beginPath();
         prevX = e.pageX - canvasElem.offsetLeft;
         prevY = e.pageY - canvasElem.offsetTop;
       },
@@ -136,7 +134,6 @@
         if (mousePressed) {
           var curX = e.pageX - canvasElem.offsetLeft;
           var curY = e.pageY - canvasElem.offsetTop;
-          ctx.moveTo(prevX, prevY);
           this.$socket.invoke("Draw", {
             from: {
               x: prevX,
@@ -147,11 +144,6 @@
               y: curY
             },
             color: this.color
-          })
-          .then(() => {
-            ctx.strokeStyle = this.color;
-            ctx.lineTo(curX, curY);
-            ctx.stroke();
           })
           .catch(() => {
             console.error("Ошибка отправки точек на сервер");

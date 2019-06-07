@@ -17,12 +17,11 @@ new Vue({
   render: h => h(App),
   created() {
     this.$socket.start({
-      log: false
+      log: true
     });
   },
   sockets: {
     UserJoined(room) {
-      alert('Присоединился новый пользователь!');
       this.$store.commit('updateActiveRoom', room);
     },
     UserLeft(room) {

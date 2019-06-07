@@ -85,9 +85,8 @@ namespace Whiteboard.Hubs
             if (connection.Room == null)
                 throw new Exception();
             var id = connection.Room.Id.ToString();
-            Console.WriteLine(id);
-            connection.Room.Canvas.DrawLine(Color.Black, m.From, m.To);
             await Clients.Group(id).Drew(m).ConfigureAwait(false);
+            connection.Room.Canvas.DrawLine(Color.Black, m.From, m.To);
         }
     }
 }

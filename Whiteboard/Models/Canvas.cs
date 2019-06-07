@@ -24,7 +24,10 @@ namespace Whiteboard.Models
         [NotMapped]
         private Image buffer;
         [NotMapped]
-        private readonly object canvasLock = new object(); 
+        private readonly object canvasLock = new object();
+
+        // Pixel size
+        private static int pixelSize = 4; 
 
         public byte[] GetBytes()
         {
@@ -50,7 +53,7 @@ namespace Whiteboard.Models
             if (Content == null)
             {
                 buffer = new Bitmap(1000, 600);
-                Content = new byte[buffer.Width * buffer.Height * 4];
+                Content = new byte[buffer.Width * buffer.Height * pixelSize];
             }
             else
             {

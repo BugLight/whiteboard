@@ -26,7 +26,7 @@ namespace Whiteboard.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<byte[]>("Content");
+                    b.Property<byte[]>("сontent");
 
                     b.Property<DateTime>("ModifiedAt");
 

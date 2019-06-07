@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Linq;
 using Whiteboard.Models;
 
@@ -8,13 +8,18 @@ namespace Whiteboard
 {
     public class ActiveRoomStorage : IActiveRoomStorage
     {
-        private readonly Dictionary<Guid, ActiveRoom> activeRooms = new Dictionary<Guid, ActiveRoom>();
+        private readonly ConcurrentDictionary<Guid, ActiveRoom> activeRooms = new ConcurrentDictionary<Guid, ActiveRoom>();
 
-        private readonly AppContext context;
+        private readonly DbContextOptions contextOptions;
 
-        public ActiveRoomStorage(AppContext context)
+        public ActiveRoomStorage(DbContextOptions options)
         {
-            this.context = context;
+            contextOptions = options;
+        }
+
+        private AppContext CreateContext()
+        {
+            return new AppContext(contextOptions);
         }
 
         public void Add(Guid id, ActiveRoom item)
@@ -27,7 +32,8 @@ namespace Whiteboard
                 {
                     Remove(room.Id);
                     room.Canvas.Flush();
-                    context.SaveChanges();
+                    using (var context = CreateContext())
+                        context.SaveChanges();
                 }
             };
         }
@@ -36,7 +42,9 @@ namespace Whiteboard
         {
             if (!activeRooms.ContainsKey(id))
             {
-                Room room = context.Rooms.Include(r => r.Canvas).FirstOrDefault(r => r.Id == id);
+                Room room;
+                using (var context = CreateContext())
+                    room = context.Rooms.Include(r => r.Canvas).FirstOrDefault(r => r.Id == id);
                 if (room == null)
                     return null;
                 ActiveRoom activeRoom = new ActiveRoom(room);
@@ -48,7 +56,7 @@ namespace Whiteboard
 
         public void Remove(Guid id)
         {
-            activeRooms.Remove(id);
+            activeRooms.TryRemove(id, out _);
         }
     }
 }

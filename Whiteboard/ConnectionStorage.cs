@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
 
 namespace Whiteboard
 {
     public class ConnectionStorage : IConnectionStorage
     {
-        private readonly Dictionary<string, Connection> connections = new Dictionary<string, Connection>();
+        private readonly ConcurrentDictionary<string, Connection> connections = new ConcurrentDictionary<string, Connection>();
 
         public void Add(string id, Connection item)
         {
@@ -24,7 +24,7 @@ namespace Whiteboard
 
         public void Remove(string id)
         {
-            connections.Remove(id);
+            connections.TryRemove(id, out _);
         }
     }
 }
